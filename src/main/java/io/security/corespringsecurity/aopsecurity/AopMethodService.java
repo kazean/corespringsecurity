@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AopMethodService {
 
-    @Secured("ROLE_USER")
+//    @Secured("ROLE_USER")
     public void methodSecured() {
         log.info("AopMethodService.methodSecured");
     }

@@ -18,6 +18,8 @@ spring:
     remote:
       restart:
         enabled: true
+  profiles:
+    active: pointcut
 logging:
   level:
     org.hibernate.SQL: debug

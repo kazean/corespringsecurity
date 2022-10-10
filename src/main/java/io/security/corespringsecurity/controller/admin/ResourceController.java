@@ -5,6 +5,7 @@ import io.security.corespringsecurity.domain.entity.Resources;
 import io.security.corespringsecurity.domain.entity.Role;
 import io.security.corespringsecurity.repository.RoleRepository;
 import io.security.corespringsecurity.security.meatadatasource.UrlSecurityMetadataSource;
+import io.security.corespringsecurity.service.MethodSecurityService;
 import io.security.corespringsecurity.service.ResourcesService;
 import io.security.corespringsecurity.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class ResourceController {
     private final RoleRepository roleRepository;
     private final RoleService roleService;
     private final UrlSecurityMetadataSource urlSecurityMetadataSource;
+//    private final MethodSecurityService methodSecurityService;
 
     @GetMapping("/admin/resources")
     public String getResources(Model model) throws Exception {
@@ -50,7 +52,7 @@ public class ResourceController {
     }
 
     @PostMapping("/admin/resources")
-    public String createResources(ResourcesDto resourcesDto) {
+    public String createResources(ResourcesDto resourcesDto) throws Exception {
         ModelMapper modelMapper = new ModelMapper();
         Role role = roleRepository.findByRoleName(resourcesDto.getRoleName());
         Set<Role> roles = new HashSet<>();
@@ -60,6 +62,7 @@ public class ResourceController {
 
         resourcesService.createResources(resources);
         urlSecurityMetadataSource.reload();
+//        methodSecurityService.addMethodSecured(resourcesDto.getResourceName(), resourcesDto.getRoleName());
 
         return "redirect:/admin/resources";
     }
@@ -81,6 +84,7 @@ public class ResourceController {
         Resources resources = resourcesService.getResources(Long.valueOf(id));
         resourcesService.deleteResources(Long.valueOf(id));
         urlSecurityMetadataSource.reload();
+//        methodSecurityService.removeMethodSecured(resources.getResourceName());
         return "redirect:/admin/resources";
     }
 }
