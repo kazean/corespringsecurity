@@ -7,7 +7,7 @@ import io.security.corespringsecurity.security.handler.CustomAccessDeniedHandler
 import io.security.corespringsecurity.security.handler.CustomAuthenticationFailureHandler;
 import io.security.corespringsecurity.security.handler.CustomAuthenticationSuccessHandler;
 import io.security.corespringsecurity.security.meatadatasource.UrlSecurityMetadataSource;
-import io.security.corespringsecurity.security.provider.FormAuthenticationProvider;
+import io.security.corespringsecurity.security.processor.provider.FormAuthenticationProvider;
 import io.security.corespringsecurity.security.voter.IpAddressVoter;
 import io.security.corespringsecurity.service.SecurityResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.RoleHierarchyVoter;
-import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -39,7 +38,6 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Order(1)
@@ -88,6 +86,7 @@ public class SecurityConfig {
             .and()
 //                .addFilterBefore(customFilterSecurityInterceptor(), FilterSecurityInterceptor.class);
                 .addFilterBefore(permitAllFilter(), FilterSecurityInterceptor.class);
+
         httpSecurity
                 .authenticationProvider(formAuthenticationProvider());
 //        authenticationManagerBuilder.authenticationProvider(formAuthenticationProvider());
@@ -101,8 +100,6 @@ public class SecurityConfig {
             web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
         };
     }
-
-
 
     //    @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager() {

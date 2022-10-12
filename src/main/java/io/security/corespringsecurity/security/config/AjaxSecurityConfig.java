@@ -5,7 +5,7 @@ import io.security.corespringsecurity.security.filter.AjaxLoginProcessingFilter;
 import io.security.corespringsecurity.security.handler.AjaxAccessDeniedHandler;
 import io.security.corespringsecurity.security.handler.AjaxAuthenticationFailureHandler;
 import io.security.corespringsecurity.security.handler.AjaxAuthenticationSuccessHandler;
-import io.security.corespringsecurity.security.provider.AjaxAuthenticationProvider;
+import io.security.corespringsecurity.security.processor.provider.AjaxAuthenticationProvider;
 import io.security.corespringsecurity.security.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,12 +15,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Order(0)
 //@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
@@ -32,7 +30,7 @@ public class AjaxSecurityConfig {
 
     @Bean
     public SecurityFilterChain ajaxFilterChain(HttpSecurity httpSecurity
-//            , AuthenticationConfiguration authenticationConfiguration
+            , AuthenticationConfiguration authenticationConfiguration
             , AuthenticationManagerBuilder authenticationManagerBuilder
     ) throws Exception {
         httpSecurity
@@ -52,6 +50,7 @@ public class AjaxSecurityConfig {
 //            .and()
 //                .addFilterBefore(ajaxLoginProcessingFilter(authenticationConfiguration), UsernamePasswordAuthenticationFilter.class);
         authenticationManagerBuilder.authenticationProvider(ajaxAuthenticationProvider());
+        customConfigurer(httpSecurity, authenticationConfiguration);
 
 
         return httpSecurity.build();
@@ -61,7 +60,7 @@ public class AjaxSecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Bean
+//    @Bean
     public AjaxLoginProcessingFilter ajaxLoginProcessingFilter(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         AjaxLoginProcessingFilter ajaxLoginProcessingFilter = new AjaxLoginProcessingFilter();
         ajaxLoginProcessingFilter.setAuthenticationManager(authenticationManagerBean(authenticationConfiguration));

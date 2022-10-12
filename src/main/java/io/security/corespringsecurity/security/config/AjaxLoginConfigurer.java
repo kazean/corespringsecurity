@@ -18,19 +18,13 @@ public class AjaxLoginConfigurer <H extends HttpSecurityBuilder<H>>
     private AuthenticationSuccessHandler authenticationSuccessHandler;
     private AuthenticationFailureHandler authenticationFailureHandler;
 
-    public AjaxLoginConfigurer<H> setAuthenticationManagerAjax(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-        return this;
+    public AjaxLoginConfigurer() {
+        super(new AjaxLoginProcessingFilter(), null);
     }
 
-    public AjaxLoginConfigurer<H> successHandlerAjax(AuthenticationSuccessHandler authenticationSuccessHandler) {
-        this.authenticationSuccessHandler = authenticationSuccessHandler;
-        return this;
-    }
-
-    public AjaxLoginConfigurer<H> failureHandlerAjax(AuthenticationFailureHandler authenticationFailureHandler) {
-        this.authenticationFailureHandler = authenticationFailureHandler;
-        return this;
+    @Override
+    protected AjaxLoginConfigurer<H> loginPage(String loginPage) {
+        return super.loginPage(loginPage);
     }
 
     @Override
@@ -66,10 +60,18 @@ public class AjaxLoginConfigurer <H extends HttpSecurityBuilder<H>>
         super.init(http);
     }
 
-    @Override
-    protected AjaxLoginConfigurer<H> loginPage(String loginPage) {
-        return super.loginPage(loginPage);
+    public AjaxLoginConfigurer<H> setAuthenticationManagerAjax(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+        return this;
     }
 
+    public AjaxLoginConfigurer<H> successHandlerAjax(AuthenticationSuccessHandler authenticationSuccessHandler) {
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+        return this;
+    }
 
+    public AjaxLoginConfigurer<H> failureHandlerAjax(AuthenticationFailureHandler authenticationFailureHandler) {
+        this.authenticationFailureHandler = authenticationFailureHandler;
+        return this;
+    }
 }

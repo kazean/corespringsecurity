@@ -1,4 +1,4 @@
-package io.security.corespringsecurity.security.provider;
+package io.security.corespringsecurity.security.processor.provider;
 
 import io.security.corespringsecurity.security.common.FormWebAuthenticationDetails;
 import io.security.corespringsecurity.security.service.AccountContext;

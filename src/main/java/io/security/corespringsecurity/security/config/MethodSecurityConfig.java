@@ -24,9 +24,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-@Configuration
-@Order(2)
+//@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+//@Configuration
+//@Order(2)
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
     @Autowired
     private SecurityResourceService securityResourceService;
